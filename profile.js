@@ -14,9 +14,18 @@
     normalized.firstName = String(normalized.firstName || "").trim();
     normalized.lastName = String(normalized.lastName || "").trim();
     normalized.email = String(normalized.email || "").trim();
-    normalized.linkedin = String(normalized.linkedin || "").trim();
-    normalized.github = String(normalized.github || "").trim();
+    normalized.linkedin = normalizeLink(normalized.linkedin, "https://linkedin.com/in/");
+    normalized.github = normalizeLink(normalized.github, "https://github.com/");
     return normalized;
+  }
+
+  function normalizeLink(value, profilePrefix) {
+    const link = String(value || "").trim();
+    if (!link) return "";
+    if (/^https?:\/\//i.test(link)) return link;
+    if (/^(www\.)?(linkedin\.com|github\.com)\//i.test(link)) return `https://${link}`;
+    if (!/[\s/]/.test(link)) return `${profilePrefix}${link.replace(/^@/, "")}`;
+    return `https://${link}`;
   }
 
   async function loadProfile() {

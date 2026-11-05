@@ -51,6 +51,12 @@
       expect(JobAutofillMatcher.matchField(ambiguous, profile).status !== "auto", "ambiguous field must not autofill");
     });
 
+    test("profile accepts social handles and normalizes them", () => {
+      const normalized = JobAutofillProfile.normalizeProfile({ linkedin: "@ada", github: "ada" });
+      expect(normalized.linkedin === "https://linkedin.com/in/ada", "expected LinkedIn profile URL");
+      expect(normalized.github === "https://github.com/ada", "expected GitHub profile URL");
+    });
+
   </script>
 </body>
 </html>
