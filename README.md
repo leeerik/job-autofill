@@ -11,7 +11,7 @@ A privacy-first Chrome Manifest V3 extension that fills empty job application fi
 
 ## Use
 
-Open an application on any page with a form, then choose **Autofill six fields**. The extension fills only empty, high-confidence first name, last name, email, phone, LinkedIn, and GitHub inputs. It never submits the application. Dropdowns, custom widgets, application questions, files, and ambiguous matches are intentionally skipped.
+Open an application on any page with a form, then choose **Autofill six fields**. The extension fills only empty, high-confidence first name, last name, email, phone, LinkedIn, and GitHub inputs. LinkedIn and GitHub values are kept as entered, without automatically adding `https://`. It never submits the application. Dropdowns, custom widgets, application questions, files, and ambiguous matches are intentionally skipped.
 
 The matcher recognizes common labels, names, IDs, placeholders, `autocomplete`, and associated `<label>` elements for the six supported fields. LinkedIn and GitHub use explicit labels or field names rather than generic URL autocomplete, which avoids confusing the two.
 
