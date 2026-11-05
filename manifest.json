@@ -1,0 +1,11 @@
+
+{
+  "manifest_version": 3,
+  "name": "Job Autofill",
+  "version": "0.4.0",
+  "description": "Privacy-first autofill for contact and developer profile fields.",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

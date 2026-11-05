@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Job Autofill</title>
+  <style>
+    :root { --ink: #17332f; --muted: #64736f; --line: #d7e1dc; --paper: #f7faf8; --accent: #d85b38; }
+    * { box-sizing: border-box; }
+    body { width: 300px; margin: 0; padding: 18px; color: var(--ink); background: var(--paper); font: 14px/1.4 system-ui, sans-serif; }
+    h1 { margin: 0; font: 700 24px/1.1 Georgia, serif; }
+    p { margin: 5px 0 16px; color: var(--muted); }
+    label { display: block; margin: 10px 0; color: var(--muted); font-size: 12px; }
+    input, button { width: 100%; margin-top: 4px; padding: 9px; border: 1px solid var(--line); border-radius: 6px; font: inherit; }
+    input { background: white; color: var(--ink); }
+    button { cursor: pointer; font-weight: 650; }
+    .primary { border-color: var(--accent); background: var(--accent); color: white; }
+    .privacy { margin-top: 14px; padding: 9px; border-left: 3px solid var(--accent); background: #fff3ed; color: var(--muted); font-size: 12px; }
+    .status { min-height: 20px; margin-top: 10px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <h1>Job Autofill</h1>
+  <p>Save the six fields this extension fills.</p>
+  <form id="profileForm">
+    <label>First name<input name="firstName" autocomplete="given-name"></label>
+    <label>Last name<input name="lastName" autocomplete="family-name"></label>
+    <label>Email<input name="email" type="email" autocomplete="email"></label>
+    <label>Phone number<input name="phone" type="tel" autocomplete="tel"></label>
+    <label>LinkedIn<input name="linkedin" type="url"></label>
+    <label>GitHub<input name="github" type="url"></label>
+    <div class="privacy">Data stays local. Dropdowns, custom widgets, questions, files, and all other fields are skipped.</div>
+    <button class="primary" type="submit">Save profile</button>
+    <button id="autofill" type="button">Autofill six fields</button>
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+  </form>
+  <script src="profile.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

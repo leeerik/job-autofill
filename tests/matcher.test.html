@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Autofill matcher tests</title>
+  <style>body { font: 14px system-ui, sans-serif; padding: 20px; } .pass { color: #176b43; } .fail { color: #a63e25; }</style>
+</head>
+<body>
+  <h1>Supported-field tests</h1>
+  <ol id="results"></ol>
+  <script src="../profile.js"></script>
+  <script src="../field-matcher.js"></script>
+  <script>
+    const results = document.getElementById("results");
+    const profile = JobAutofillProfile.normalizeProfile({ firstName: "Ada", lastName: "Lovelace", email: "ada@example.test", phone: "555-0100", linkedin: "https://linkedin.com/in/ada", github: "https://github.com/ada" });
+    function test(name, assertion) {
+      const item = document.createElement("li");
+      try { assertion(); item.className = "pass"; item.textContent = `PASS: ${name}`; }
+      catch (error) { item.className = "fail"; item.textContent = `FAIL: ${name} - ${error.message}`; }
+      results.append(item);
+    }
+    function expect(condition, message) { if (!condition) throw new Error(message); }
+
+    for (const [key, autocomplete] of [["firstName", "given-name"], ["lastName", "family-name"], ["email", "email"], ["phone", "tel"]]) {
+      const input = document.createElement("input");
+      input.autocomplete = autocomplete;
+      document.body.append(input);
+      test(`${key} autocomplete is high confidence`, () => {
+        const match = JobAutofillMatcher.matchField(input, profile);
+        expect(match.key === key, `expected ${key} key`);
+        expect(match.status === "auto", "expected auto status");
+        expect(match.confidence >= 0.85, "expected confidence >= 0.85");
+      });
+    }
+
+    for (const [key, label] of [["linkedin", "LinkedIn profile"], ["github", "GitHub profile"]]) {
+      const input = document.createElement("input");
+      input.name = label;
+      document.body.append(input);
+      test(`${key} label is high confidence`, () => {
+        const match = JobAutofillMatcher.matchField(input, profile);
+        expect(match.key === key, `expected ${key} key`);
+        expect(match.status === "auto", "expected auto status");
+      });
+    }
+
+    const ambiguous = document.createElement("input");
+    ambiguous.name = "email first name";
+    document.body.append(ambiguous);
+    test("ambiguous fields are ignored", () => {
+      expect(JobAutofillMatcher.matchField(ambiguous, profile).status !== "auto", "ambiguous field must not autofill");
+    });
+
+  </script>
+</body>
+</html>
